@@ -6,45 +6,31 @@ from tqdm import tqdm
 from Config import Config
 from model import build_model
 from Dataset import Songs
-from musicPlay import play_song, save_song_to_abc
+from musicPlay import save_midi, save_song_to_abc
 
 
 
 
-### Prediction of a generated song ###
-
+"""
+利用已经训练的模型model生成abc格式音乐
+"""
 def createabc(model, char2idx, idx2char, start_string="X", generation_length=1000):
-  # Evaluation step (generating ABC text using the learned RNN model)
 
-  '''TODO: convert the start string to numbers (vectorize)'''
-  input_eval = [char2idx[s] for s in start_string]
-  input_eval = tf.expand_dims(input_eval, 0)
+    input_eval = [char2idx[s] for s in start_string]
+    input_eval = tf.expand_dims(input_eval, 0)
+    text_generated = []
 
-  # Empty string to store our results
-  text_generated = []
+    model.reset_states()
+    tqdm._instances.clear()
 
-  # Here batch size == 1
-  model.reset_states()
-  tqdm._instances.clear()
-
-  for i in tqdm(range(generation_length)):
-      predictions = model(input_eval)
-      
-      # Remove the batch dimension
-      predictions = tf.squeeze(predictions, 0)
-      
-      '''TODO: use a multinomial distribution to sample'''
-      predicted_id = tf.random.categorical(predictions, num_samples=1)[-1,0].numpy()
-      
-      # Pass the prediction along with the previous hidden state
-      #   as the next inputs to the model
-      input_eval = tf.expand_dims([predicted_id], 0)
-      
-      '''TODO: add the predicted character to the generated text!'''
-      # Hint: consider what format the prediction is in vs. the output
-      text_generated.append(idx2char[predicted_id])
+    for i in tqdm(range(generation_length)):
+        predictions = model(input_eval)
+        predictions = tf.squeeze(predictions, 0)
+        predicted_id = tf.random.categorical(predictions, num_samples=1)[-1,0].numpy()
+        input_eval = tf.expand_dims([predicted_id], 0)
+        text_generated.append(idx2char[predicted_id])
     
-  return (start_string + ''.join(text_generated))
+    return (start_string + ''.join(text_generated))
 
 
 
@@ -56,7 +42,6 @@ def generate(data, modelfile, startstr, length):
     opt = Config(len(songs.vocab))
     model = build_model(opt.vocab_size, opt.embedding_dim, opt.rnn_units, batch_size=1)
 
-    # Restore the model weights for the last checkpoint after training
     model.load_weights(os.path.join(opt.checkpoint_dir, modelfile))
     model.build(tf.TensorShape([1, None]))
 
@@ -69,17 +54,17 @@ def generate(data, modelfile, startstr, length):
     for i, song in enumerate(generate_songs):
         name = os.path.join(songdir, str(i) + '.abc')
         save_song_to_abc(song, name)
-        play_song(name)
+        save_midi(name)
 
 
 
 
 if __name__ == "__main__":
     p = argparse.ArgumentParser()
-    p.add_argument("--data", type=str, default="")
-    p.add_argument("--modelfile", type=str, default="")
-    p.add_argument("--startstr", type=str, default="")
-    p.add_argument("--length", type=int, default=1000)
-    # p.add_argument("--lr", type=float, default=0.00001)
+    p.add_argument("--data", type=str, default="", help="The name of abc notation music file in dataset/")
+    p.add_argument("--modelfile", type=str, default="", help="model file in training_checkpoints/, eg:my_ckpt")
+    p.add_argument("--startstr", type=str, default="", help="A random string you want the music to start with")
+    p.add_argument("--length", type=int, default=1000, help="The length of the music you want to generate")
+
     args = p.parse_args()
     generate(args.data, args.modelfile, args.startstr, args.length)

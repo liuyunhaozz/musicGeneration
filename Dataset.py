@@ -52,19 +52,12 @@ class Songs(object):
     创建训练数据集
     """
     def get_batch(self, vectorized_list, seq_length, batch_size):
-        # the length of the vectorized songs string
         n = vectorized_list.shape[0] - 1
-        # randomly choose the starting indices for the examples in the training batch
         idx = np.random.choice(n-seq_length, batch_size)
-        # print(idx)
-        # print(n - seq_length)
 
         input_batch = [vectorized_list[i:i+seq_length] for i in idx]
-        # print(input_batch)
         output_batch = [vectorized_list[i+1: i+1+seq_length] for i in idx]
-        # print(output_batch)
 
-        # x_batch, y_batch provide the true inputs and targets for network training
         x_batch = np.reshape(input_batch, [batch_size, seq_length])
         y_batch = np.reshape(output_batch, [batch_size, seq_length])
         return x_batch, y_batch

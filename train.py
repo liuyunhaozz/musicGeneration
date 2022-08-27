@@ -28,11 +28,9 @@ def train(name):
     plotter = PeriodicPlotter(sec=2, xlabel='Iterations', ylabel='Loss')
     
     if hasattr(tqdm, '_instances'): 
-        tqdm._instances.clear() # clear if it exists
+        tqdm._instances.clear()
 
     for iter in tqdm(range(opt.num_training_iterations)):
-
-        # Grab a batch and propagate it through the network
         x_batch, y_batch = songs.get_batch(vectorized_list, opt.seq_length, opt.batch_size)
         # print(x_batch.shape)
         
@@ -41,18 +39,14 @@ def train(name):
             loss = lossfunc(y_batch, y_pred, from_logits=True)
 
         grads = tape.gradient(loss, model.trainable_variables)
-        # Apply the gradients to the optimizer so it can update the model accordingly
         optimizer.apply_gradients(zip(grads, model.trainable_variables))
 
-        # Update the progress bar
         history.append(loss.numpy().mean())
         plotter.plot(history)
 
-    # Update the model with the changed weights!
         if iter % 100 == 0:     
             model.save_weights(opt.checkpoint_prefix)
         
-    # Save the trained model and the weights
     model.save_weights(opt.checkpoint_prefix)
 
 
@@ -60,7 +54,6 @@ def train(name):
 
 if __name__ == "__main__":
     p = argparse.ArgumentParser()
-    p.add_argument("--data", type=str, default="")
-    # p.add_argument("--lr", type=float, default=0.00001)
+    p.add_argument("--data", type=str, default="", help="The name of abc notation music file in dataset/")
     args = p.parse_args()
     train(args.data)

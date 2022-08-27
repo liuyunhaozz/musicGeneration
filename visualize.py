@@ -3,6 +3,9 @@ import matplotlib.pyplot as plt
 from IPython import display
 import IPython
 
+"""
+可视化类，用于训练时显示训练结果
+"""
 class PeriodicPlotter:
   def __init__(self, sec, xlabel='', ylabel='', scale=None):
 
