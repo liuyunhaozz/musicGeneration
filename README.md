@@ -6,7 +6,7 @@ This repo contains the code to train a RNN mode and use this model to generate m
 
 ### Train
 
-1. Put `.abc` notation music file into folder `dataset/`
+1. Put `abc` notation music file into folder `dataset/`
 2. run `python -r requirements.txt ` to install the packages
 3. run `train.py` with the flag below.  
 
@@ -43,9 +43,9 @@ optional arguments:
 
 eg: `python generate.py --data music.txt --model my_ckpt --startstr X --length 1000`
 
+### Note
 
-
-
+- The project need `abc2midi` and `timidity` to convert the music from `abc` notation to `mid` and `wav`. Make sure you install them on your OS before you start generating music. 
 
 
 
