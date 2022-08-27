@@ -56,13 +56,13 @@ class Songs(object):
         n = vectorized_list.shape[0] - 1
         # randomly choose the starting indices for the examples in the training batch
         idx = np.random.choice(n-seq_length, batch_size)
-        print(idx)
+        # print(idx)
         # print(n - seq_length)
 
         input_batch = [vectorized_list[i:i+seq_length] for i in idx]
-        print(input_batch)
+        # print(input_batch)
         output_batch = [vectorized_list[i+1: i+1+seq_length] for i in idx]
-        print(output_batch)
+        # print(output_batch)
 
         # x_batch, y_batch provide the true inputs and targets for network training
         x_batch = np.reshape(input_batch, [batch_size, seq_length])
