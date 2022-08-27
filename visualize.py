@@ -31,5 +31,6 @@ class PeriodicPlotter:
         plt.xlabel(self.xlabel); plt.ylabel(self.ylabel)
         display.clear_output(wait=True)
         display.display(plt.gcf())
+        plt.savefig('training_checkpoints/train.jpg')
         
         self.tic = time.time()
