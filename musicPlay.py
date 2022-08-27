@@ -1,9 +1,9 @@
 import os
+from tracemalloc import start
 from IPython.display import Audio
 
 def save_song_to_abc(song, filename="tmp"):
-    save_name = "{}.abc".format(filename)
-    with open(save_name, "w") as f:
+    with open(filename, "w") as f:
         f.write(song)
     return filename
 
@@ -12,23 +12,12 @@ def abc2wav(abc_file):
     cmd = "abc2midi {} -o {}".format(abc_file, suf + ".mid")
     os.system(cmd)
     cmd = "timidity {}.mid -Ow {}.wav".format(suf, suf)
-    return os.system(cmd) 
+    return suf + ".mid"
 
-def play_wav(wav_file):
-    # f = open("demofile3.wav", "w")
-    # f.write(wav_file)
-    # f.close()
-    return Audio(wav_file)
-
-def play_song(song):
-    basename = save_song_to_abc(song)
-    print(basename)
-    ret = abc2wav(basename + '.abc')
-    if ret == 0: #did not suceed
-        print('yes')
-        return play_wav(basename+'.wav')
-    return None
-
+def play_song(abc_file):
+    wav_file = abc2wav(abc_file)
+    cmd = "start {}".format(wav_file)
+    return os.system(cmd)
 
 # file = "test.wav"
 # os.system("start " + file)
