@@ -1,16 +1,17 @@
 # musicGeneration
 
-This repo contains the code to train a RNN mode and use this model to generate music in format `midi` and `wav`. The code has been tested with `Python 3.7` on `Windows 10` and `Google Colab`  
+This repo contains the code to train a RNN mode and use this model to generate music in format `midi` and `wav`. The code has been tested with `Python 3.7` on `Windows 10` and `Google Colab`.
+
+### Get Started with Google Colab
+Open the notebook [train_at_colab.ipynb](https://colab.research.google.com/github/liuyunhaozz/musicGeneration/blob/master/train_at_colab.ipynb) in Google Colab and run all cells.
 
 ---
-### Get Started with Google Colab
-Open the notebook [musicGeneration.ipynb](https://colab.research.google.com/github/liuyunhaozz/musicGeneration/blob/master/train_at_colab.ipynb) in Google Colab and run all cells.
 
 ### Train
 
 1. Put `abc` notation music file into folder `dataset/`
-2. run `python -r requirements.txt ` to install the packages
-3. run `train.py` with the flag below.  
+2. run `python -r requirements.txt ` to install the packages.
+3. run `train.py` with the flag below.
 
 ```sh
 usage: train.py [-h] [--data DATA]
