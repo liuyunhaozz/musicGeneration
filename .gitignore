@@ -1,2 +1,5 @@
 __pycache__
 .vscode
+training_checkpoints/
+songs/
+webdemo/index.html.0
