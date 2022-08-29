@@ -4,7 +4,7 @@ This repo contains the code to train a RNN mode and use this model to generate m
 
 ---
 ### Get Started with Google Colab
-open the notebook `musicGeneration.ipynb` in Google Colab and run all cells.
+Open the notebook [musicGeneration.ipynb](https://colab.research.google.com/github/liuyunhaozz/musicGeneration/blob/master/train_at_colab.ipynb) in Google Colab and run all cells.
 
 ### Train
 
