@@ -3,6 +3,8 @@
 This repo contains the code to train a RNN mode and use this model to generate music in format `midi` and `wav`. The code has been tested with `Python 3.7` on `Windows 10` and `Google Colab`  
 
 ---
+### Get Started with Google Colab
+open the notebook `musicGeneration.ipynb` in Google Colab and run all cells.
 
 ### Train
 
