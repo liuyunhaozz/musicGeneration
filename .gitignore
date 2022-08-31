@@ -1,2 +1,4 @@
 __pycache__
 .vscode
+training_checkpoints/
+songs/
