@@ -2,3 +2,7 @@ __pycache__
 .vscode
 training_checkpoints/
 songs/
+*.xmind
+*.docx
+*.doc
+*.mp4
